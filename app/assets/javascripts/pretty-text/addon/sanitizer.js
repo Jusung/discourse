@@ -143,6 +143,11 @@ export function sanitize(text, allowLister) {
         }
       }
     },
+    onTag(tag, html, options) {
+      if (tag === 'video' && html.match(/autoplay/) && !html.match(/muted/)) {
+        return '[removed]';
+      }
+    },
   });
 
   return result
