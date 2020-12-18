@@ -196,6 +196,38 @@ module("Unit | Utility | sanitizer", function () {
     );
   });
 
+  test("autoplay videos must be muted", function (assert) {
+    let pt = new PrettyText(buildOptions({ siteSettings: {} }));
+    assert.notOk(
+      pt
+        .sanitize(
+          `<p>Hey</p><video autoplay src="http://example.com/music.mp3"/>`
+        )
+        .match(/video/)
+    );
+    assert.ok(
+      pt
+        .sanitize(
+          `<p>Hey</p><video autoplay muted src="http://example.com/music.mp3"/>`
+        )
+        .match(/video/)
+    );
+    assert.notOk(
+      pt
+        .sanitize(
+          `<p>Hey</p><video autoplay><source src="http://example.com/music.mp3" type="audio/mpeg"></video>`
+        )
+        .match(/<video/)
+    );
+    assert.ok(
+      pt
+        .sanitize(
+          `<p>Hey</p><video autoplay muted><source src="http://example.com/music.mp3" type="audio/mpeg"></video>`
+        )
+        .match(/<video/)
+    );
+  });
+
   test("urlAllowed", function (assert) {
     const allowed = (url, msg) => assert.equal(hrefAllowed(url), url, msg);
 
