@@ -144,7 +144,11 @@ export function sanitize(text, allowLister) {
       }
     },
     onTag(tag, html) {
-      if (tag === "video" && html.match(/ autoplay/) && !html.match(/ muted/)) {
+      if (
+        tag === "video" &&
+        html.match(/ autoplay/i) &&
+        !html.match(/ muted/i)
+      ) {
         return "[removed]";
       }
     },
