@@ -149,7 +149,7 @@ export function sanitize(text, allowLister) {
         html.match(/ autoplay/i) &&
         !html.match(/ muted/i)
       ) {
-        return "[removed]";
+        return `${html.substring(0, html.length - 1)} muted>`;
       }
     },
   });
